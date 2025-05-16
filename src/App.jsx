@@ -1,5 +1,6 @@
 import './App.css'
 import {
+  ContactsOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
@@ -8,6 +9,10 @@ import {
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import { useState } from 'react';
+import { FcDepartment } from "react-icons/fc";
+import { MdDashboard } from "react-icons/md";
+import { FaUserDoctor } from "react-icons/fa6";
+import { Link, Outlet } from 'react-router-dom';
 const { Header, Sider, Content } = Layout;
 
 
@@ -29,18 +34,28 @@ function App() {
             items={[  
               {
                 key: '1',
-                icon: <UserOutlined />,
-                label: 'Appointment',
+                icon: <MdDashboard />,
+               label: <Link to='/Dashboard'>Dashboard</Link>
               },
               {
                 key: '2',
-                icon: <VideoCameraOutlined />,
-                label: 'nav 2',
+                icon: <UserOutlined />,
+                label: <Link to='/Appointment'>Appointment</Link>
               },
               {
                 key: '3',
-                icon: <UploadOutlined />,
-                label: 'nav 3',
+                icon: <FcDepartment />,
+                label: 'Department',
+              },
+              {
+                key: '4',
+                icon: <FaUserDoctor />,
+                label: 'Doctors Name',
+              },
+              {
+                key: '5',
+                icon: <ContactsOutlined />,
+                label: 'Contact',
               },
             ]}
           />
@@ -67,7 +82,7 @@ function App() {
               borderRadius: borderRadiusLG,
             }}
           >
-            Content
+            <Outlet/>
           </Content>
         </Layout>
       </Layout>
