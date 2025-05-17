@@ -6,6 +6,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Appointment from './pages/Appointment.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import Contact from './pages/Contact.jsx'
+import Department from './pages/Department.jsx'
+import Doctors from './pages/Doctors.jsx'
 
 const router = createBrowserRouter([
   {
@@ -19,6 +22,18 @@ const router = createBrowserRouter([
       {
         path: '/Appointment',
         element: <Appointment />
+      },
+      {
+        path: '/Contact',
+        element: <Contact/>
+      },
+      {
+        path: '/Department',
+        element: <Department/>
+      },
+      {
+        path: '/Doctors',
+        element: <Doctors/>
       }
     ]
   }

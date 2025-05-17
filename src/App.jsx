@@ -45,17 +45,17 @@ function App() {
               {
                 key: '3',
                 icon: <FcDepartment />,
-                label: 'Department',
+                label: <Link to='/Department'>Department</Link>
               },
               {
                 key: '4',
                 icon: <FaUserDoctor />,
-                label: 'Doctors Name',
+                label: <Link to='/Doctors'>Doctors</Link>
               },
               {
                 key: '5',
                 icon: <ContactsOutlined />,
-                label: 'Contact',
+                label: <Link to='/Contact'>Contact</Link>
               },
             ]}
           />
