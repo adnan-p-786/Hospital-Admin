@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Input, Modal, Table } from 'antd';
+import { Button, Divider, Form, Input, message, Modal, Table } from 'antd';
 import { useState } from 'react';
 import { useCreateDepartment, useDeleteDepartment } from '../Apis/Department/departmentHooks';
 import { getDepartment } from '../Apis/Department/departmentApi';
