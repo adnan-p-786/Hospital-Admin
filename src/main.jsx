@@ -9,8 +9,13 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import Contact from './pages/Contact.jsx'
 import Department from './pages/Department.jsx'
 import Doctors from './pages/Doctors.jsx'
+import Login from './pages/Login.jsx'
 
 const router = createBrowserRouter([
+  {
+    path:'/Login',
+    element:<Login/>
+  },
   {
     path: '/',
     element: <App />,

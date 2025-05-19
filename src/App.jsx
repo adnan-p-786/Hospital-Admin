@@ -18,7 +18,7 @@ const { Header, Sider, Content } = Layout;
 
 
 function App() {
- const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -31,11 +31,11 @@ function App() {
             theme="dark"
             mode="inline"
             defaultSelectedKeys={['1']}
-            items={[  
+            items={[
               {
                 key: '1',
                 icon: <MdDashboard />,
-               label: <Link to='/Dashboard'>Dashboard</Link>
+                label: <Link to='/Dashboard'>Dashboard</Link>
               },
               {
                 key: '2',
@@ -61,7 +61,7 @@ function App() {
           />
         </Sider>
         <Layout>
-          <Header style={{ padding: 0, background: colorBgContainer }}>
+          <Header style={{ padding: 0, background: colorBgContainer ,display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '50px'}}>
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -72,6 +72,9 @@ function App() {
                 height: 64,
               }}
             />
+            <Button type="primary">
+              <Link to="/Login">Login</Link>
+            </Button>
           </Header>
           <Content
             style={{
@@ -82,7 +85,7 @@ function App() {
               borderRadius: borderRadiusLG,
             }}
           >
-            <Outlet/>
+            <Outlet />
           </Content>
         </Layout>
       </Layout>
