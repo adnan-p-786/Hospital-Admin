@@ -1,11 +1,11 @@
 import { useMutation } from "react-query"
 import { deleteDoctor, postDoctor } from "./doctorApi"
 
-export const useCreateDepartment = () => {
+export const useCreateDoctor = () => {
     return useMutation((data: any) => postDoctor(data))
 }
 
 
-export const useDeleteDepartment = () => {
+export const useDeleteDoctor = () => {
     return useMutation((data: any) => deleteDoctor(data))
 }

@@ -5,7 +5,11 @@ export const getDoctor =()=>{
 }
 
 export const postDoctor =(data:any)=>{
-    return apiCLient.post('/api/doctor/post',data)
+    return apiCLient.post('/api/doctor/post',data,{
+      headers:{
+        "Content-Type":"multipart/form-data"
+      }
+    })
 }
 
 export const deleteDoctor = (id: string) => {
