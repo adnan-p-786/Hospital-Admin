@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Card, Spin, Modal, Form, Input, Select, message, Upload } from 'antd';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { getDoctor, postDoctor } from '../Apis/Doctor/doctorApi';
+import { DeleteOutlined } from '@ant-design/icons';
+import { useDeleteDoctor } from '../Apis/Doctor/doctorHooks';
 
 const { Meta } = Card;
 const { Option } = Select;
@@ -10,7 +12,8 @@ function Doctors() {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
-  const { data, isLoading, isError } = useQuery('getDoctor', getDoctor);
+  const { data, isLoading, isError, refetch } = useQuery('getDoctor', getDoctor);
+  const { mutate: Delete } = useDeleteDoctor()
 
   const { mutate: createDoctor, isLoading: isSubmitting } = useMutation(postDoctor, {
     onSuccess: () => {
@@ -31,16 +34,29 @@ function Doctors() {
       .validateFields()
       .then((values) => {
         console.log(values)
-        if(values.image.file){
+        if (values.image.file) {
           values.image = values.image.file.originFileObj
         }
-        // values.ima = values.im.file.oj
         createDoctor(values);
       })
       .catch((info) => {
         console.log('Validate Failed:', info);
       });
   };
+
+  const handleDelete = (id) => {
+    console.log({id});
+    
+      Delete(id, {
+        onSuccess: () => {
+          message.success('Deleted successfully');
+          refetch();
+        },
+        onError: () => {
+          message.error('Failed to delete');
+        }
+      });
+    };
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -87,22 +103,25 @@ function Doctors() {
         </Form>
       </Modal>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-4">
         {Array.isArray(data?.data) && data.data.length > 0 ? (
           data.data.map((doctor) => (
             <Card
               key={doctor._id}
-              style={{ width: 300, height: 420 }}
+              style={{ width: 200, height: 200 }}
               cover={
                 <img
-                  className="h-[320px] object-cover"
+                  className="h-[300px] object-cover"
                   alt={doctor.Name}
                   src={doctor.image}
                 />
               }
+              actions={[
+                <DeleteOutlined onClick={() => handleDelete(doctor._id)} key="Delete" className='border-red-600 border-2'/>,
+              ]}
             >
               <Meta
-                className="text-[18px] text-center"
+                className="text-[15px] text-center"
                 title={doctor.Name}
                 description={doctor.Department}
               />

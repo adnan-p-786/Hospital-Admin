@@ -1,7 +1,6 @@
 import { Table } from 'antd';
 import { createStyles } from 'antd-style';
 import { useQuery } from 'react-query';
-import { getAppointment } from '../Apis/Appointment/appointmentApi';
 import { getContact } from '../Apis/contact/contactApi';
 
 

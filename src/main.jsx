@@ -10,19 +10,28 @@ import Contact from './pages/Contact.jsx'
 import Department from './pages/Department.jsx'
 import Doctors from './pages/Doctors.jsx'
 import Login from './pages/Login.jsx'
+import { LoginProtect, RouteProtect } from './Provider/RouteProvider.jsx'
 
 const router = createBrowserRouter([
-  {
-    path:'/Login',
-    element:<Login/>
-  },
+ {
+  path: '/login',
+  element: (
+    <LoginProtect>
+      <Login />
+    </LoginProtect>
+  )
+},
   {
     path: '/',
     element: <App />,
     children: [
       {
         path: '/Dashboard',
-        element: <Dashboard />
+        element: (
+          <RouteProtect>
+            <Dashboard/>
+          </RouteProtect>
+        )
       },
       {
         path: '/Appointment',
