@@ -8,6 +8,7 @@ function Login() {
 
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
+  const [Role, setRole] = useState('')
   const [Name, setName] = useState('')
 
   const navigate = useNavigate()
@@ -19,7 +20,7 @@ function Login() {
         // Sign-up logic
         const { data } = await axios.post(
           'http://localhost:3000/api/user/create',
-          { Name, Password, Email }
+          { Name, Password, Email, Role }
         )
         console.log(data);
 
@@ -37,18 +38,23 @@ function Login() {
         // Login logic
         const { data } = await axios.post(
           'http://localhost:3000/api/user/login',
-          { Password, Email, }
+          { Password, Email, Role }
         )
         console.log(data);
         if (data.success) {
           localStorage.setItem('token', data.data.token);
-          localStorage.setItem('id', data.data.id);   
+          localStorage.setItem('id', data.data.id);
           localStorage.setItem('Email', data.data.Email)
+          localStorage.setItem('Role', data.data.Role)
           setEmail(data.Email)
-          navigate('/')
+          if (data.data.Role === 'Doctor') {
+            navigate('/Dashboard');
+          } else if (data.data.Role === 'Admin') {
+            navigate('/Dashboard');
+          }
         }
 
-      } 
+      }
     } catch (error) {
       alert(error.response?.data?.message || 'Something went wrong')
     }
@@ -90,6 +96,17 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <select
+            className='bg-slate-200 mt-4 rounded-md h-10 w-full px-3'
+            value={Role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+          >
+            <option value='' disabled>Select Role</option>
+            <option value='Admin'>Admin</option>
+            <option value='Doctor'>Doctor</option>
+          </select>
+
           <button className='bg-black rounded-md hover:cursor-pointer text-white h-10 w-full mt-4'>
             {state === 'signUp' ? 'Create Account' : 'Login'}
           </button>
