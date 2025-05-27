@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { getDoctor, postDoctor } from '../Apis/Doctor/doctorApi';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useDeleteDoctor } from '../Apis/Doctor/doctorHooks';
+import { getDepartment } from '../Apis/Department/departmentApi';
 
 const { Meta } = Card;
 const { Option } = Select;
@@ -14,7 +15,7 @@ function Doctors() {
   const queryClient = useQueryClient();
   const { data, isLoading, isError, refetch } = useQuery('getDoctor', getDoctor);
   const { mutate: Delete } = useDeleteDoctor()
-
+  const { data: departmentData, isLoading: isDeptLoading } = useQuery('getDepartment', getDepartment);
   const { mutate: createDoctor, isLoading: isSubmitting } = useMutation(postDoctor, {
     onSuccess: () => {
       message.success('Doctor added successfully!');
@@ -45,18 +46,18 @@ function Doctors() {
   };
 
   const handleDelete = (id) => {
-    console.log({id});
-    
-      Delete(id, {
-        onSuccess: () => {
-          message.success('Deleted successfully');
-          refetch();
-        },
-        onError: () => {
-          message.error('Failed to delete');
-        }
-      });
-    };
+    console.log({ id });
+
+    Delete(id, {
+      onSuccess: () => {
+        message.success('Deleted successfully');
+        refetch();
+      },
+      onError: () => {
+        message.error('Failed to delete');
+      }
+    });
+  };
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -84,16 +85,21 @@ function Doctors() {
           <Form.Item name="Name" label="Doctor Name" rules={[{ required: true, message: 'Please enter the name' }]}>
             <Input placeholder="Name" />
           </Form.Item>
-          <Form.Item name="Department" label="Department" rules={[{ required: true, message: 'Please select a department' }]}>
-            <Select placeholder="Select a department">
-              <Option value="Cardiology">Cardiology</Option>
-              <Option value="Neurology">Neurology</Option>
-              <Option value="Dermatology">Dermatology</Option>
-              <Option value="Pediatrics">Pediatrics</Option>
-              <Option value="Radiology">Radiology</Option>
-              <Option value="Orthopeadic">Orthopeadic</Option>
+          <Form.Item
+            name="DepartmentId"
+            label="Department"
+            rules={[{ required: true, message: 'Please select a department' }]}
+          >
+            <Select placeholder="Select a department" loading={isDeptLoading}>
+              {Array.isArray(departmentData?.data) &&
+                departmentData.data.map((dept) => (
+                  <Option key={dept._id} value={dept._id}>
+                    {dept.Name}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
+
           <Form.Item name={'image'}>
             <Upload>
               <Button>Click to Upload</Button>
@@ -117,7 +123,7 @@ function Doctors() {
                 />
               }
               actions={[
-                <DeleteOutlined onClick={() => handleDelete(doctor._id)} key="Delete" className='border-red-600 border-2'/>,
+                <DeleteOutlined onClick={() => handleDelete(doctor._id)} key="Delete" className='border-red-600 border-2' />,
               ]}
             >
               <Meta
