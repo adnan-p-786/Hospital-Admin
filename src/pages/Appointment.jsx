@@ -25,92 +25,101 @@ const useStyle = createStyles(({ css, token }) => {
 
 function Appointment() {
     const { styles } = useStyle();
-    const { data,isLoading } = useQuery('getAppointment', getAppointment)
+    const { data, isLoading } = useQuery('getAppointment', getAppointment)
 
 
-    const user = JSON.parse(localStorage.getItem('user'));
-    const userType = user?.Role;
-    const userId = user?.id;
+    const userType = localStorage.getItem('Role');
+    const userId = localStorage.getItem('id');
 
-   const filteredData = useMemo(() => {
-    if (!data?.data) return [];
-
-    if (userType === 'Admin') {
-        return data.data;
-    }
-
-    if (userType === 'Doctor') {
-        return data.data.filter(item => {
-            const itemDoctorId = typeof item.DoctorId === 'string'
-                ? item.DoctorId
-                : item.DoctorId?._id;
-
-            return itemDoctorId === userId;
-        });
-    }
-
-    return [];
-}, [data, userType, userId]);
-
+    console.log({userId});
+    // console.log(data.data);
     
+    
+    const filteredData = useMemo(() => {
+        let filterData ;
+        if (!data?.data) return [];
+
+        filterData = data?.data
+
+        // if (userType === 'Admin') {
+        //     return filterData;
+        // }
+
+        if (userType === 'Doctor') {
+            // return data.data.filter(item => {
+            //     const itemDoctorId = typeof item.DoctorId === 'string'
+            //         ? item.DoctorId
+            //         : item.DoctorId?._id;
+
+            //     return itemDoctorId === userId;
+            // });
+
+            filterData = filterData.filter((it)=>it?.DoctorId?._id == userId)
+        }
+
+        return  filterData;
+    }, [data]);
+
+
+
 
     const columns = [
-    {
-        title: 'Name',
-        width: 200,
-        dataIndex: 'Name',
-        fixed: 'left',
-        key: '1',
-    },
-    {
-        title: 'Gender',
-        width: 100,
-        dataIndex: 'Gender',
-        key: '2',
-    },
-    {
-        title: 'Email',
-        dataIndex: 'Email',
-        key: '3',
-        width: 200,
-    },
-    {
-        title: 'Phone',
-        dataIndex: 'Phone',
-        key: '4',
-        width: 150,
-    },
-    {
-        title: 'Date',
-        dataIndex: 'Date',
-        key: '5',
-        width: 150,
-    },
-    {
-        title: 'Time',
-        dataIndex: 'Time',
-        key: '6',
-        width: 150,
-    },
-    {
-        title: 'Doctor',
-        dataIndex: 'Doctor',
-        key: '7',
-        width: 150,
-    },
-    {
-        title: 'Department',
-        dataIndex: 'Department',
-        key: '8',
-        width: 150,
-    },
-    {
-        title: 'Message',
-        dataIndex: 'Message',
-        key: '9',
-        width: 250,
-    }
-];
+        {
+            title: 'Name',
+            width: 200,
+            dataIndex: 'Name',
+            fixed: 'left',
+            key: '1',
+        },
+        {
+            title: 'Gender',
+            width: 100,
+            dataIndex: 'Gender',
+            key: '2',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'Email',
+            key: '3',
+            width: 200,
+        },
+        {
+            title: 'Phone',
+            dataIndex: 'Phone',
+            key: '4',
+            width: 150,
+        },
+        {
+            title: 'Date',
+            dataIndex: 'Date',
+            key: '5',
+            width: 150,
+        },
+        {
+            title: 'Time',
+            dataIndex: 'Time',
+            key: '6',
+            width: 150,
+        },
+        {
+            title: 'Doctor',
+            dataIndex: 'Doctor',
+            key: '7',
+            width: 150,
+        },
+        {
+            title: 'Department',
+            dataIndex: 'Department',
+            key: '8',
+            width: 150,
+        },
+        {
+            title: 'Message',
+            dataIndex: 'Message',
+            key: '9',
+            width: 250,
+        }
+    ];
 
 
 

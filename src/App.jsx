@@ -22,6 +22,12 @@ function App() {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const handlelogout = ()=>{
+    localStorage.clear();
+    alert("Logouted Successfully")
+  }
+
   return (
     <>
       <Layout className='h-screen'>
@@ -72,9 +78,15 @@ function App() {
                 height: 64,
               }}
             />
+            <div className='flex gap-3'>
+            <Button onClick={handlelogout} type="primary">
+              Logout
+            </Button>
             <Button type="primary">
               <Link to="/Login">Login</Link>
             </Button>
+            </div>
+            
           </Header>
           <Content
             style={{

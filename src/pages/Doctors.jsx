@@ -85,6 +85,12 @@ function Doctors() {
           <Form.Item name="Name" label="Doctor Name" rules={[{ required: true, message: 'Please enter the name' }]}>
             <Input placeholder="Name" />
           </Form.Item>
+          <Form.Item name="Email" label="Email" rules={[{ required: true, message: 'Please enter the Email' }]}>
+            <Input placeholder="Email" />
+          </Form.Item>
+          <Form.Item name="Password" label="Password" rules={[{ required: true, message: 'Set Password' }]}>
+            <Input placeholder="Password" />
+          </Form.Item>
           <Form.Item
             name="DepartmentId"
             label="Department"
@@ -129,7 +135,7 @@ function Doctors() {
               <Meta
                 className="text-[15px] text-center"
                 title={doctor.Name}
-                description={doctor.Department}
+                description={doctor?.DepartmentId?.Name}
               />
             </Card>
           ))
