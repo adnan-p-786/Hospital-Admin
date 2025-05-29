@@ -12,29 +12,38 @@ function Login() {
   const navigate = useNavigate()
 
   const onSubmitHandler = async (event) => {
-    event.preventDefault()
-    try {
-        const { data } = await axios.post(
-          'http://localhost:3000/api/user/login',
-          { Password, Email, Role }
-        )
-        console.log(data);
-        if (data.success) {
-          localStorage.setItem('token', data.data.token);
-          localStorage.setItem('id', data.data.id);
-          localStorage.setItem('Email', data.data.Email)
-          localStorage.setItem('Role', data.data.Role)
-          setEmail(data.Email)
-          if (data.data.Role === 'Doctor') {
-            navigate('/Dashboard');
-          } else if (data.data.Role === 'Admin') {
-            navigate('/Dashboard');
-          }
-        }
-    } catch (error) {
-      alert(error.response?.data?.message || 'Something went wrong')
+  event.preventDefault();
+  try {
+    let loginUrl = '';
+
+    if (Role === 'Doctor') {
+      loginUrl = 'http://localhost:3000/api/doctor/login-doctor';
+    } else if (Role === 'Admin') {
+      loginUrl = 'http://localhost:3000/api/user/login';
+    } else {
+      alert('Please select a valid role');
+      return;
     }
+
+    const { data } = await axios.post(loginUrl, { Email, Password,Role });
+
+    if (data.success) {
+      localStorage.setItem('token', data.data.token);
+      localStorage.setItem('id', data.data.id);
+      localStorage.setItem('Email', data.data.Email);
+      localStorage.setItem('Role', Role); 
+
+      if (Role === 'Doctor') {
+        navigate('/Dashboard');
+      } else if (Role === 'Admin') {
+        navigate('/Dashboard');
+      }
+    }
+  } catch (error) {
+    alert(error.response?.data?.message || 'Something went wrong');
   }
+};
+
 
 
   return (
