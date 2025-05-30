@@ -3,8 +3,6 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
-  const [id, setId] = useState([])
-
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
   const [Role, setRole] = useState('')
